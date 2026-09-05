@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #5B54C8;         /* Indigo: couleur principale de Daneo */
+  --color-primary-pressed: #463FA8; /* état appui / pressé */
+  --color-primary-tint: #EEEBFB;    /* fond teinté indigo (zones, surbrillance douce) */
+  --color-accent: #E09A6A;          /* Abricot: réussite, progression, actions positives */
+  --color-paper: #FAF8F4;           /* fond principal de l'app */
+  --color-surface: #FFFFFF;         /* surfaces / cartes posées sur le fond */
+  --color-ink: #2B2A3D;             /* texte principal */
+  --color-ink-soft: #6E6B85;        /* texte secondaire / atténué */
+}
