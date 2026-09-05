@@ -1,6 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&family=DM+Mono:wght@400&family=Instrument+Sans:wght@400;500&display=swap');
+
 @import "tailwindcss";
 
 @theme {
+
+  /* Colors */
+
   --color-primary: #5B54C8;         /* Indigo: couleur principale de Daneo */
   --color-primary-pressed: #463FA8; /* état appui / pressé */
   --color-primary-tint: #EEEBFB;    /* fond teinté indigo (zones, surbrillance douce) */
@@ -9,4 +14,9 @@
   --color-surface: #FFFFFF;         /* surfaces / cartes posées sur le fond */
   --color-ink: #2B2A3D;             /* texte principal */
   --color-ink-soft: #6E6B85;        /* texte secondaire / atténué */
+
+  /* Fonts */
+  --font-hangul: "Noto Serif KR", serif;
+  --font-mono: "DM Mono", monospace;
+  --font-sans: "Instrument Sans", sans-serif;
 }
