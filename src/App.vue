@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { DaneoApi } from "@/api/daneoApi";
+import {onMounted, ref} from "vue";
+import type {DeckListItemResponse} from "@/types/deck/DeckListItemResponse.ts";
+import {getDecks} from "@/api/DeckService.ts";
 
-interface Deck {
-  id: number;
-  name: string;
-  description: string;
-  cardCount: number;
-}
-
-const decks = ref<Deck[]>([]);
+const decks = ref<DeckListItemResponse[]>([]);
 
 onMounted(async () => {
-  const response = await DaneoApi.get<Deck[]>("/decks");
-  decks.value = response.data;
+  decks.value = await getDecks();
 });
 </script>
 
@@ -25,8 +18,8 @@ onMounted(async () => {
   </p>
   <p class="font-hangul text-ink-soft">사과, 학교</p>
 
-  <p v-for="value of decks.values()" :key="value.id">
-    {{ value.id}} - {{ value.name }} - {{ value.description }}
+  <p v-for="deck of decks.values()" :key="deck.id">
+    {{ deck.id }} | {{ deck.name }} | {{ deck.cardCount }}
   </p>
 </template>
 

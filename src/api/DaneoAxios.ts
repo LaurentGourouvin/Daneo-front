@@ -1,6 +1,6 @@
 import axios, {type AxiosInstance} from "axios";
 
-export const DaneoApi: AxiosInstance = axios.create({
+export const DaneoAxios: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers : {
     "Content-Type": "application/json"
