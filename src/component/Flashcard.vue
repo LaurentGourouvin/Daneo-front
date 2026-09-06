@@ -25,6 +25,8 @@ const props = defineProps<FlashcardSummary>()
       <section class="w-full">
         <p class="font-hangul text-2xl">{{ props.koreanTerm }}</p>
         <p class="font-mono text-primary text-lg">{{ props.romanization }}</p>
+      </section>
+      <section class="flex items-center">
         <p class="font-sans text-sm text-ink-soft">{{ props.frenchTerm }}</p>
       </section>
     </div>
