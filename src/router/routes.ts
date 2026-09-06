@@ -4,6 +4,7 @@ import Deck from "@/views/Deck.vue";
 import FlashcardCreation from "@/views/FlashcardCreation.vue";
 import Profil from "@/views/Profil.vue";
 import NotFound from "@/views/NotFound.vue";
+import Components from "@/views/Components.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -25,5 +26,9 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     component: NotFound
+  },
+  {
+    path: "/components",
+    component: Components
   }
 ]

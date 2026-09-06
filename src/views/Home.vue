@@ -4,6 +4,7 @@
 
 <template>
   <p>Page d'accueil</p>
+
 </template>
 
 <style scoped>

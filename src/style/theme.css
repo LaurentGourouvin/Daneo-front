@@ -14,6 +14,7 @@
   --color-surface: #FFFFFF;         /* surfaces / cartes posées sur le fond */
   --color-ink: #2B2A3D;             /* texte principal */
   --color-ink-soft: #6E6B85;        /* texte secondaire / atténué */
+  --color-danger: #B44A3F;
 
   /* Fonts */
   --font-hangul: "Noto Serif KR", serif;
