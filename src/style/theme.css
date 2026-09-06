@@ -16,6 +16,18 @@
   --color-ink-soft: #6E6B85;        /* texte secondaire / atténué */
   --color-danger: #B44A3F;
 
+  /* Maîtrisé — vert */
+  --color-mastered-bg: #E8F0E9;    /* fond vert très pâle */
+  --color-mastered-text: #4F8A6B;  /* texte vert foncé */
+
+  /* À revoir — ocre/ambre */
+  --color-review-bg: #F5EFE0;      /* fond crème */
+  --color-review-text: #A67C00;    /* texte ocre foncé */
+
+  /* Difficile — rouge */
+  --color-difficult-bg: #F5E6E3;   /* fond rosé pâle */
+  --color-difficult-text: #A24634; /* texte rouge brique */
+
   /* Fonts */
   --font-hangul: "Noto Serif KR", serif;
   --font-mono: "DM Mono", monospace;
