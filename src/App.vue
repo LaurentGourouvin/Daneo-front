@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 import type {DeckListItemResponse} from "@/types/deck/DeckListItemResponse.ts";
 import {getDecks} from "@/api/DeckService.ts";
+import DaneoNavigationBar from "@/component/DaneoNavigationBar.vue";
 
 const decks = ref<DeckListItemResponse[]>([]);
 
@@ -21,8 +22,12 @@ onMounted(async () => {
   <p v-for="deck of decks.values()" :key="deck.id">
     {{ deck.id }} | {{ deck.name }} | {{ deck.cardCount }}
   </p>-->
+  <div class="mb-26">
+    <DaneoNavigationBar></DaneoNavigationBar>
 
-  <router-view></router-view>
+    <router-view></router-view>
+  </div>
+
 </template>
 
 <style scoped></style>
