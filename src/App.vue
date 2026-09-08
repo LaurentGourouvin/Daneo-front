@@ -4,7 +4,7 @@ import DaneoNavigationBar from "@/component/DaneoNavigationBar.vue";
 </script>
 
 <template>
-  <div class="mb-26">
+  <div class="mb-0">
     <DaneoNavigationBar></DaneoNavigationBar>
 
     <router-view></router-view>

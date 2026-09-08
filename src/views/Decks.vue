@@ -10,25 +10,31 @@ const router = useRouter();
 const redirectToCreateDeck = () => {
   router.push("/decks/create")
 }
+const redirectToDeck = (id: number) => {
+  router.push("/decks/" + id);
+}
 </script>
 
 <template>
-  <header class="flex justify-between items-end py-2 px-3 mt-2">
-    <h1 class="font-sans text-xl font-semibold">Mes Decks</h1>
-    <p class="font-mono text-xs text-ink-soft">{{ deckStore.totalDecks() }} decks -
-      {{ deckStore.totalCards() }} cartes</p>
-  </header>
+  <div class="pb-26">
+    <header class="flex justify-between items-end py-2 px-3 mt-2">
+      <h1 class="font-sans text-xl font-semibold">Mes Decks</h1>
+      <p class="font-mono text-xs text-ink-soft">{{ deckStore.totalDecks() }} decks -
+        {{ deckStore.totalCards() }} cartes</p>
+    </header>
 
-  <div v-for="deck of deckStore.decks" :key="deck.id">
-    <DeckCard :deck-id="deck.id" :deck-title="deck.name" :card-count="deck.cardCount"
-              :key="deck.id"/>
-  </div>
+    <div v-for="deck of deckStore.decks" :key="deck.id">
+      <DeckCard :deck-id="deck.id" :deck-title="deck.name" :card-count="deck.cardCount"
+                :key="deck.id" @click="redirectToDeck(deck.id)"/>
+    </div>
 
-  <div class="flex border-dashed border-2 border-primary bg-surface p-4 m-2 gap-3
+    <div class="flex border-dashed border-2 border-primary bg-surface p-4 m-2 gap-3
   rounded-2xl hover:cursor-pointer justify-center text-primary">
-    <circle-plus @click="redirectToCreateDeck"/>
-    <p @click="redirectToCreateDeck">Ajouter un deck</p>
+      <circle-plus @click="redirectToCreateDeck"/>
+      <p @click="redirectToCreateDeck">Ajouter un deck</p>
+    </div>
   </div>
+
 </template>
 
 <style scoped>
