@@ -4,29 +4,31 @@ import DaneoButton from "@/component/DaneoButton.vue";
 import {useFlashcardStore} from "@/stores/FlashcardStore.ts";
 import {useDecksStore} from "@/stores/DecksStore.ts";
 import DeckCard from "@/component/DeckCard.vue";
-import {LoaderCircle} from 'lucide-vue-next';
-import {ref} from "vue";
+import {LoaderCircle, CircleCheckBig} from 'lucide-vue-next';
+import {onUnmounted, ref} from "vue";
+import {useRouter} from "vue-router";
 
 const flashcardStore = useFlashcardStore();
 const deckStore = useDecksStore();
+const router = useRouter();
 const jamos = ["가", "나", "다"];
 const isOn = ref<boolean>(false);
-
+const selectedIndex = ref<number>(0);
 enum STEPPER {
   FIRST_PAGE = 1,
   SECOND_PAGE = 2,
 }
 
-const translate = () => {
-  flashcardStore.increment();
-  flashcardStore.translate();
-}
+
+onUnmounted(() => {
+  flashcardStore.reset();
+})
 </script>
 
 <template>
   <div class="p-2 min-h-dvh flex flex-col pb-28">
     <nav class="flex justify-between items-end text-sm mb-4">
-      <p>Annuler</p>
+      <p @click="flashcardStore.reset(); router.back()">Annuler</p>
       <h1 class="font-sans text-sm font-semibold text-center">Nouvelle carte</h1>
     </nav>
 
@@ -34,7 +36,7 @@ const translate = () => {
          class="flex-1 flex flex-col justify-between">
       <div class="w-full">
         <h2 class="font-sans font-semibold text-xl text-center">Quel mot veux-tu apprendre ?</h2>
-        <DaneoInputTextField id="word" label="français" v-model="flashcardStore.frenchTerm"/>
+        <DaneoInputTextField id="word" label="français" v-model="flashcardStore.frenchWord"/>
         <div v-if="flashcardStore.selectedDeck == null" class="flex border-dashed border-2 border-primary bg-surface p-4 m-2 gap-3
               rounded-2xl hover:cursor-pointer justify-center text-primary"
              @click="flashcardStore.toggleModalDeck()">
@@ -45,20 +47,29 @@ const translate = () => {
                     :deck-id="flashcardStore.selectedDeck.id"
                     :cardCount="flashcardStore.selectedDeck.cardCount" selectMode/>
         </div>
+        <div v-if="flashcardStore.error"
+             class="relative border border-danger bg-danger-light text-danger p-4 m-2 rounded-2xl ">
+          <p class="font-sans text-lg">La traduction n'a pas aboutie.</p>
+          <p class="font-sans text-sm text-ink-soft">Le service n'a pas répondu. Tu peux réessayer
+            ou saisir le coréen toi-même.</p>
+          <DaneoButton label="Réssayer" variant="danger" class="mt-4"
+                       @click="flashcardStore.translate()"/>
+        </div>
       </div>
 
-      <div class="flex justify-center">
-        <DaneoButton label="Traduire" variant="primary" @click="translate"/>
+      <div v-if="flashcardStore.error == null" class="flex justify-center">
+        <DaneoButton label="Traduire" variant="primary" @click="flashcardStore.translate()"/>
       </div>
     </div>
 
-    <div v-if="flashcardStore.steps == STEPPER.SECOND_PAGE" class="flex-1 flex flex-col justify-between">
+    <div v-if="flashcardStore.steps == STEPPER.SECOND_PAGE"
+         class="flex-1 flex flex-col justify-between">
       <div class="w-full flex flex-col justify-between">
         <h2 class="font-sans font-semibold text-xl text-center">Quel mot veux-tu apprendre ?</h2>
         <div
           class="relative flex flex-col border border-gray-200 bg-surface p-4 m-2 rounded-2xl hover:cursor-pointer">
           <p class="font-mono text-xs text-ink-soft">{{ "Français".toUpperCase() }}</p>
-          <p class="font-sans font-semibold pl-2 text-sm">{{ flashcardStore.frenchTerm }}</p>
+          <p class="font-sans font-semibold pl-2 text-sm">{{ flashcardStore.frenchWord }}</p>
         </div>
 
         <div v-if="flashcardStore.translationLoading"
@@ -75,17 +86,42 @@ const translate = () => {
           </div>
         </div>
         <div v-else>
-          <div
-            class="relative flex flex-col gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
+          <div v-if="flashcardStore.translations.translations.length == 1"
+               class="relative flex flex-col gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
             <section class="flex justify-between ">
               <p class="font-mono text-xs text-ink-soft">{{ "Coréen".toUpperCase() }}</p>
-              <p class="text-primary bg-primary/15 rounded-2xl text-[10px] p-1.5">proposé par
+              <p class="text-primary bg-primary/15 rounded-sm text-[9px] p-1">proposé par
                 l'IA</p>
             </section>
             <section class="flex flex-col items-center mt-4 gap-3">
-              <p class="font-hangul font-semibold text-5xl">다가</p>
-              <p class="font-mono text-primary">sagwa</p>
+              <p class="font-hangul text-4xl">{{ flashcardStore.translations?.translations[0]?.korean }}</p>
+              <p class="text-ink-soft text-sm">{{ flashcardStore.frenchWord }} - {{ flashcardStore.translations?.translations[0]?.meaning }}</p>
             </section>
+          </div>
+          <div v-else-if="flashcardStore.translations.translations.length > 1">
+            <div
+              v-for="(translation, index) in flashcardStore.translations.translations"
+              :key="index"
+              @click="selectedIndex = index"
+              :class="['relative flex justify-between bg-surface items-center gap-2 p-4 m-2 rounded-2xl border cursor-pointer transition-colors',
+              selectedIndex === index ? 'border-primary' : 'border-gray-200'
+              ]"
+            >
+              <p class="text-primary absolute top-1 right-3 bg-primary/15 rounded-sm text-[9px] p-1">proposé par
+                l'IA</p>
+              <div>
+                <p class="font-hangul text-4xl">{{ translation.korean }}</p>
+                <p class="text-ink-soft text-sm">{{ flashcardStore.frenchWord }} - {{ translation.meaning }}</p>
+              </div>
+
+              <div
+                :class="['w-7 h-7 rounded-full flex items-center justify-center transition-colors shrink-0',
+                selectedIndex === index ? 'bg-surface text-surface' : 'border-2 border-gray-300'
+                ]"
+              >
+                <CircleCheckBig v-if="selectedIndex === index" :size="32" class="text-primary"/>
+              </div>
+            </div>
           </div>
 
           <section
@@ -111,8 +147,8 @@ const translate = () => {
         </div>
       </div>
       <div class="flex justify-center">
-         <!-- TODO effectuer l'appel API -->
-        <DaneoButton label="Générer la carte" />
+        <!-- TODO effectuer l'appel API -->
+        <DaneoButton label="Générer la carte" @click="console.log(flashcardStore.translations.translations[selectedIndex])"/>
       </div>
     </div>
 
