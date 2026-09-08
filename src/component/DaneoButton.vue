@@ -16,11 +16,9 @@ const variantClasses: Record<string, string> = {
 </script>
 
 <template>
-  <div class="w-full p-2">
-    <button :class="[baseClasses, variantClasses[variant]]">
-      {{ label }}
-    </button>
-  </div>
+  <button :class="[baseClasses, variantClasses[variant]]">
+    {{ label }}
+  </button>
 </template>
 
 <style scoped>

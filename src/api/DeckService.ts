@@ -44,7 +44,7 @@ export const getDeckDetail = async (id: number): Promise<DeckDetailResponse> => 
  * @param id
  * @param data
  */
-export const renameDeck = async (id: number, data: DeckUpdateRequest): Promise<DeckResponse> => {
+export const renameDeckById = async (id: number, data: DeckUpdateRequest): Promise<DeckResponse> => {
   const response = await DaneoAxios.patch<DeckResponse>(`/decks/${id}`, data);
   return response.data;
 }

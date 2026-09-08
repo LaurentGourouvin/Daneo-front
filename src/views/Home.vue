@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import {useDecksStore} from "@/stores/DecksStore.ts";
+
+const deckStore = useDecksStore();
+deckStore.fetchDeckList();
 
 </script>
 

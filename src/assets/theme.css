@@ -15,6 +15,9 @@
   --color-ink: #2B2A3D;             /* texte principal */
   --color-ink-soft: #6E6B85;        /* texte secondaire / atténué */
   --color-danger: #B44A3F;
+  --color-danger-light: #F6EBE8;
+  --color-warning-text: #6B4A2F;
+  --color-warning-light: #F7EFE7;
 
   /* Maîtrisé — vert */
   --color-mastered-bg: #E8F0E9;    /* fond vert très pâle */

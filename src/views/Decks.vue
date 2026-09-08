@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import {CirclePlus} from 'lucide-vue-next';
 import {useDecksStore} from "@/stores/DecksStore.ts";
 import DeckCard from "@/component/DeckCard.vue";
+import {useRouter} from "vue-router";
 
 const deckStore = useDecksStore();
-deckStore.fetchDeckList();
+const router = useRouter();
+
+const redirectToCreateDeck = () => {
+  router.push("/decks/create")
+}
 </script>
 
 <template>
@@ -14,7 +20,14 @@ deckStore.fetchDeckList();
   </header>
 
   <div v-for="deck of deckStore.decks" :key="deck.id">
-    <DeckCard :deck-id="deck.id" :deck-title="deck.name" :card-count="deck.cardCount" :key="deck.id"/>
+    <DeckCard :deck-id="deck.id" :deck-title="deck.name" :card-count="deck.cardCount"
+              :key="deck.id"/>
+  </div>
+
+  <div class="flex border-dashed border-2 border-primary bg-surface p-4 m-2 gap-3
+  rounded-2xl hover:cursor-pointer justify-center text-primary">
+    <circle-plus @click="redirectToCreateDeck"/>
+    <p @click="redirectToCreateDeck">Ajouter un deck</p>
   </div>
 </template>
 
