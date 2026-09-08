@@ -19,9 +19,9 @@ const frenchWord = ref<string>("");
     <deck-card deck-title="Nourriture"></deck-card>
     <deck-card deck-title="Météo" :cardCount="9"></deck-card>
     <flashcard :id="1" korean-term="사과" romanization="sagwa" french-term="pomme"
-               image-path="http://localhost:8080/images/optimized-pomme.webp"></flashcard>
+               image-path="http://localhost:8080/images/3a94b961-2ed0-4d84-9b5b-ab11faacb34e.webp"></flashcard>
     <flashcard :id="2" korean-term="아보카도" romanization="abokado" french-term="avocat"
-               image-path="http://localhost:8080/images/b3d34c8d-26cc-4055-98f6-8b748d1b03a2.webp"></flashcard>
+               image-path="http://localhost:8080/images/63af5b9c-b1d2-48d5-b78e-f41242a6131c.webp"></flashcard>
     <flashcard :id="3" korean-term="먹다" romanization="meokda" french-term="manger"
                image-path=""></flashcard>
   </div>
