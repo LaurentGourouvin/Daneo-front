@@ -4,7 +4,8 @@ import {onMounted, ref} from "vue";
 import {useDecksStore} from "@/stores/DecksStore.ts";
 import type {DeckDetailResponse} from "@/types/deck/DeckDetailResponse.ts";
 import Flashcard from "@/component/Flashcard.vue";
-import {CircleArrowLeft} from 'lucide-vue-next';
+import {CircleArrowLeft, CircleEllipsis} from 'lucide-vue-next';
+
 
 const route = useRoute();
 const router = useRouter();
@@ -25,11 +26,9 @@ const backToDecksList = () => {
 
 <template>
   <div v-if="deck">
-    <nav
-      @click="backToDecksList"
-      class="flex w-fit justify-center gap-2 m-auto mt-2 p-2 text-primary bg-surface rounded-2xl border border-gray-300 hover:cursor-pointer">
-      <CircleArrowLeft/>
-      <p>Retour aux decks</p>
+    <nav class="flex justify-between py-2 px-3 text-primary bg-gray-200 rounded-b-2xl shadow-xl border-b border-b-gray-300">
+      <CircleArrowLeft @click="backToDecksList"/>
+      <CircleEllipsis />
     </nav>
     <header class="flex justify-between items-end py-2 px-3 mt-2">
       <h1 class="font-sans text-xl font-semibold">{{ deck.name }}</h1>
