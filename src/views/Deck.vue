@@ -61,7 +61,7 @@ const updateDeck = async (id: number, name: string) => {
 </script>
 
 <template>
-  <div v-if="deck">
+  <div v-if="deck" class="pb-28">
     <nav
       class="flex justify-between py-2 px-3 text-primary bg-gray-200 rounded-b-2xl shadow-xl border-b border-b-gray-300">
       <CircleArrowLeft @click="backToDecksList"/>

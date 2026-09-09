@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {useRouter} from "vue-router";
+import { CircleChevronDown } from 'lucide-vue-next';
 
 const props = withDefaults(defineProps<{
   cardCount?: number;
   deckTitle: string;
   deckId: number;
+  selectMode?: boolean
 }>(), {
-  cardCount: 0
+  cardCount: 0,
+  selectMode: false
 });
 
 const cards = computed(() =>
   props.cardCount <= 1 ? "carte" : "cartes"
 );
 
-const router = useRouter();
-const redirectToDeck = (id: number) => {
-  router.push("/decks/" + id);
-}
+
 </script>
 
 <template>
   <div
-    @click="redirectToDeck(deckId)"
-    class="deck-card-container flex border border-gray-200 bg-surface p-4 m-2 rounded-2xl hover:cursor-pointer">
+    class="deck-card-container relative flex border border-gray-200 bg-surface p-4 m-2 rounded-2xl hover:cursor-pointer">
+    <CircleChevronDown v-if="selectMode" class="absolute right-2 top-2 text-primary"/>
     <div class="flex gap-6">
       <aside class="m-auto bg-primary-tint px-4 py-3 rounded-lg font-hangul text-primary font-bold">
         나
