@@ -7,6 +7,6 @@ import type {TranslationResponse} from "@/types/translation/TranslationResponse.
  * @param data
  */
 export const translate = async (data: TranslationRequest): Promise<TranslationResponse> => {
-  const response = await DaneoAxios.post("/translation", data);
+  const response = await DaneoAxios.post("/translate", data);
   return response.data;
 }
