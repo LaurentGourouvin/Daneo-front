@@ -183,7 +183,7 @@ onUnmounted(() => {
         v-if="!flashcardStore.generationLoading && flashcardStore.flashcard?.id"
         class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
         <p>La carte a été créee avec succès.</p>
-        <DaneoButton label="Quitter" variant="secondary" @click="flashcardStore.reset(); router.push('/home')"/>
+        <DaneoButton label="Quitter" variant="secondary" @click="flashcardStore.reset(); router.push('/')"/>
       </div>
     </div>
 
