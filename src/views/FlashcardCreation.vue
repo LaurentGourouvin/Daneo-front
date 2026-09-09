@@ -17,6 +17,7 @@ const selectedIndex = ref<number>(0);
 enum STEPPER {
   FIRST_PAGE = 1,
   SECOND_PAGE = 2,
+  FINAL_PAGE = 3
 }
 
 
@@ -102,9 +103,9 @@ onUnmounted(() => {
             <div
               v-for="(translation, index) in flashcardStore.translations.translations"
               :key="index"
-              @click="selectedIndex = index"
+              @click="flashcardStore.selectedTranslation = index"
               :class="['relative flex justify-between bg-surface items-center gap-2 p-4 m-2 rounded-2xl border cursor-pointer transition-colors',
-              selectedIndex === index ? 'border-primary' : 'border-gray-200'
+              flashcardStore.selectedTranslation === index ? 'border-primary' : 'border-gray-200'
               ]"
             >
               <p class="text-primary absolute top-1 right-3 bg-primary/15 rounded-sm text-[9px] p-1">proposé par
@@ -116,10 +117,10 @@ onUnmounted(() => {
 
               <div
                 :class="['w-7 h-7 rounded-full flex items-center justify-center transition-colors shrink-0',
-                selectedIndex === index ? 'bg-surface text-surface' : 'border-2 border-gray-300'
+                flashcardStore.selectedTranslation === index ? 'bg-surface text-surface' : 'border-2 border-gray-300'
                 ]"
               >
-                <CircleCheckBig v-if="selectedIndex === index" :size="32" class="text-primary"/>
+                <CircleCheckBig v-if="flashcardStore.selectedTranslation === index" :size="32" class="text-primary"/>
               </div>
             </div>
           </div>
@@ -130,15 +131,15 @@ onUnmounted(() => {
             <button
               type="button"
               role="switch"
-              :aria-checked="isOn"
-              @click="isOn = !isOn"
+              :aria-checked="flashcardStore.generateImage"
+              @click="flashcardStore.generateImage = !flashcardStore.generateImage"
               :class="['relative inline-flex w-12 h-7 rounded-full transition-colors duration-200',
-            isOn ? 'bg-primary' : 'bg-ink-soft/30']"
+            flashcardStore.generateImage ? 'bg-primary' : 'bg-ink-soft/30']"
             >
             <span
               :class="[
                 'absolute top-1 left-1 w-5 h-5 rounded-full bg-surface shadow transition-transform duration-200',
-                isOn ? 'translate-x-5' : 'translate-x-0'
+                flashcardStore.generateImage ? 'translate-x-5' : 'translate-x-0'
               ]"
             />
             </button>
@@ -147,11 +148,44 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="flex justify-center">
-        <!-- TODO effectuer l'appel API -->
-        <DaneoButton label="Générer la carte" @click="console.log(flashcardStore.translations.translations[selectedIndex])"/>
+        <DaneoButton label="Générer la carte" @click="flashcardStore.createFlashcard()"/>
       </div>
     </div>
 
+    <div v-if="flashcardStore.steps == STEPPER.FINAL_PAGE" class="flex-1 flex flex-col justify-between">
+      <div v-if="flashcardStore.generationLoading" class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
+        <LoaderCircle class="animate-spin text-primary"/>
+        <p class="text-sm">Génération de la carte...</p>
+        <p class="text-xs italic text-ink-soft">Si la génération d'image a été demandé, cela peut prendre plus de temps.</p>
+      </div>
+      <div v-else class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
+        <div class="w-42">
+          <img
+            v-if="flashcardStore.flashcard?.imagePath"
+            :src="flashcardStore.flashcard?.imagePath"
+            :alt="'image représentant ' + flashcardStore.flashcard?.frenchTerm"
+          />
+          <div
+            v-else
+            class="w-42 h-42 rounded-2xl bg-[repeating-linear-gradient(135deg,#f5f3ef_0px,#f5f3ef_12px,#ebe7df_12px,#ebe7df_24px)]"
+          >
+          </div>
+        </div>
+        <div class="flex flex-col gap-4 justify-center items-center">
+          <p class="font-hangul text-ink font-extrabold text-6xl">{{ flashcardStore.flashcard?.koreanTerm }}</p>
+          <p class="font-mono font-semibold text-xl text-primary">{{ flashcardStore.flashcard?.romanization}}</p>
+          <hr class="w-full text-ink-soft/20">
+          <p class="font-sans text-lg text-ink-soft">{{ flashcardStore.flashcard?.frenchTerm}}</p>
+        </div>
+      </div>
+
+      <div
+        v-if="!flashcardStore.generationLoading && flashcardStore.flashcard?.id"
+        class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
+        <p>La carte a été créee avec succès.</p>
+        <DaneoButton label="Quitter" variant="secondary" @click="flashcardStore.reset(); router.push('/home')"/>
+      </div>
+    </div>
 
     <div v-if="flashcardStore.showModalDeck" class="modal-select-deck flex flex-col justify-center max-h-full min-h-full max-w-full
     min-w-full absolute top-0 z-99 bg-surface/95">
