@@ -156,7 +156,7 @@ onUnmounted(() => {
       <div v-if="flashcardStore.generationLoading" class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
         <LoaderCircle class="animate-spin text-primary"/>
         <p class="text-sm">Génération de la carte...</p>
-        <p class="text-xs italic text-ink-soft">Si la génération d'image a été demandé, cela peut prendre plus de temps.</p>
+        <p class="text-xs italic text-ink-soft">Si la génération d'image a été demandée, cela peut prendre plus de temps.</p>
       </div>
       <div v-else class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
         <div class="w-42">
@@ -182,7 +182,7 @@ onUnmounted(() => {
       <div
         v-if="!flashcardStore.generationLoading && flashcardStore.flashcard?.id"
         class="relative flex flex-col items-center gap-2 border border-gray-200 bg-surface p-4 m-2 rounded-2xl">
-        <p>La carte a été créee avec succès.</p>
+        <p>La carte a été créée avec succès.</p>
         <DaneoButton label="Quitter" variant="secondary" @click="flashcardStore.reset(); router.push('/')"/>
       </div>
     </div>
